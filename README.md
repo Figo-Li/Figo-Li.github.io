@@ -1,6 +1,6 @@
 # Yunze (Figo) Li Portfolio
 
-Static personal portfolio for Yunze (Figo) Li, built for `https://figo-li.github.io/`.
+Static personal portfolio for Yunze (Figo) Li, built for `https://yunzeli.com/`.
 
 ## Technology Stack
 
@@ -92,6 +92,6 @@ To add a custom domain later:
 
 ## Current Public URL
 
-Target URL: `https://figo-li.github.io/`
+Target URL: `https://yunzeli.com/`
 
 Deployment may require GitHub authentication and repository creation if `Figo-Li/Figo-Li.github.io` does not exist yet.

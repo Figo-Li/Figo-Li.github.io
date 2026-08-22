@@ -4,7 +4,7 @@ export const siteConfig = {
   title: "Yunze (Figo) Li | Software Engineer & Data Engineer",
   description:
     "I am Yunze (Figo) Li, a software and data engineer focused on scalable applications, cloud systems, and reliable data pipelines.",
-  url: "https://figo-li.github.io/",
+  url: "https://yunzeli.com/",
   repository: "https://github.com/Figo-Li/Figo-Li.github.io",
   email: "figoli925@gmail.com",
   links: {

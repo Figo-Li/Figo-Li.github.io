@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CareerLens } from "./config/site";
 import { siteConfig } from "./config/site";
 import { Navbar } from "./components/Navbar";
@@ -23,46 +23,25 @@ const readInitialLens = (): CareerLens => {
 };
 
 const getPanelId = (href: string) => href.replace("#", "");
-
-const canScrollVertically = (target: EventTarget | null, deltaY: number) => {
-  let element = target instanceof Element ? target : null;
-
-  while (element && !element.classList.contains("horizontal-stage")) {
-    if (element instanceof HTMLElement) {
-      const styles = window.getComputedStyle(element);
-      const canScroll =
-        /(auto|scroll)/.test(styles.overflowY) &&
-        element.scrollHeight > element.clientHeight + 1;
-      const canMoveDown =
-        deltaY > 0 &&
-        element.scrollTop < element.scrollHeight - element.clientHeight - 1;
-      const canMoveUp = deltaY < 0 && element.scrollTop > 0;
-
-      if (canScroll && (canMoveDown || canMoveUp)) return true;
-    }
-    element = element.parentElement;
-  }
-
-  return false;
-};
+const getPanelIndex = (sectionId: string) =>
+  Math.max(
+    0,
+    panelItems.findIndex((item) => getPanelId(item.href) === sectionId),
+  );
 
 export default function App() {
-  const railRef = useRef<HTMLElement | null>(null);
   const [careerLens, setCareerLens] = useState<CareerLens>(readInitialLens);
-  const [activeSection, setActiveSection] = useState("top");
+  const [activeIndex, setActiveIndex] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    return getPanelIndex(window.location.hash.replace("#", "") || "top");
+  });
+
+  const activeSection = getPanelId(panelItems[activeIndex]?.href ?? "#top");
 
   const navigateTo = (href: string) => {
-    const id = getPanelId(href);
-    const panel = document.getElementById(id);
-    if (!panel) return;
-
-    panel.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "start",
-    });
-    setActiveSection(id);
-    window.history.replaceState(null, "", href);
+    const nextIndex = getPanelIndex(getPanelId(href));
+    setActiveIndex(nextIndex);
+    window.history.replaceState(null, "", panelItems[nextIndex].href);
   };
 
   useEffect(() => {
@@ -70,120 +49,29 @@ export default function App() {
   }, [careerLens]);
 
   useEffect(() => {
-    const rail = railRef.current;
     const revealTargets = document.querySelectorAll<HTMLElement>(".reveal");
-    if (!rail || !("IntersectionObserver" in window)) {
-      revealTargets.forEach((target) => target.classList.add("is-visible"));
-      return;
-    }
-
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { root: rail, threshold: 0.28 },
-    );
-
-    revealTargets.forEach((target) => revealObserver.observe(target));
-    return () => revealObserver.disconnect();
+    revealTargets.forEach((target) => target.classList.add("is-visible"));
   }, []);
 
   useEffect(() => {
-    const rail = railRef.current;
-    if (!rail) return;
-
-    const updateActiveSection = () => {
-      const railRect = rail.getBoundingClientRect();
-      const panels = Array.from(
-        rail.querySelectorAll<HTMLElement>("section[id]"),
-      );
-      const closest = panels.reduce<HTMLElement | null>((best, panel) => {
-        if (!best) return panel;
-        const panelDistance = Math.abs(
-          panel.getBoundingClientRect().left - railRect.left,
-        );
-        const bestDistance = Math.abs(
-          best.getBoundingClientRect().left - railRect.left,
-        );
-        return panelDistance < bestDistance ? panel : best;
-      }, null);
-
-      if (closest?.id) setActiveSection(closest.id);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown") {
+        event.preventDefault();
+        setActiveIndex((index) => Math.min(index + 1, panelItems.length - 1));
+      }
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        setActiveIndex((index) => Math.max(index - 1, 0));
+      }
     };
 
-    updateActiveSection();
-    rail.addEventListener("scroll", updateActiveSection, { passive: true });
-    window.addEventListener("resize", updateActiveSection);
-    return () => {
-      rail.removeEventListener("scroll", updateActiveSection);
-      window.removeEventListener("resize", updateActiveSection);
-    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
   useEffect(() => {
-    const rail = railRef.current;
-    if (!rail) return;
-
-    const onWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      if (canScrollVertically(event.target, event.deltaY)) return;
-
-      event.preventDefault();
-      rail.scrollBy({ left: event.deltaY * 1.1, behavior: "auto" });
-    };
-
-    let dragging = false;
-    let startX = 0;
-    let startLeft = 0;
-
-    const onPointerDown = (event: PointerEvent) => {
-      if (event.button !== 0) return;
-      if (
-        event.target instanceof Element &&
-        event.target.closest("a, button, input, textarea, select")
-      )
-        return;
-
-      dragging = true;
-      startX = event.clientX;
-      startLeft = rail.scrollLeft;
-      rail.classList.add("is-dragging");
-      rail.setPointerCapture(event.pointerId);
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (!dragging) return;
-      event.preventDefault();
-      rail.scrollLeft = startLeft - (event.clientX - startX);
-    };
-
-    const endDrag = (event: PointerEvent) => {
-      if (!dragging) return;
-      dragging = false;
-      rail.classList.remove("is-dragging");
-      if (rail.hasPointerCapture(event.pointerId))
-        rail.releasePointerCapture(event.pointerId);
-    };
-
-    rail.addEventListener("wheel", onWheel, { passive: false });
-    rail.addEventListener("pointerdown", onPointerDown);
-    rail.addEventListener("pointermove", onPointerMove);
-    rail.addEventListener("pointerup", endDrag);
-    rail.addEventListener("pointercancel", endDrag);
-
-    return () => {
-      rail.removeEventListener("wheel", onWheel);
-      rail.removeEventListener("pointerdown", onPointerDown);
-      rail.removeEventListener("pointermove", onPointerMove);
-      rail.removeEventListener("pointerup", endDrag);
-      rail.removeEventListener("pointercancel", endDrag);
-    };
-  }, []);
+    window.history.replaceState(null, "", panelItems[activeIndex].href);
+  }, [activeIndex]);
 
   const pageState = useMemo(
     () => ({
@@ -196,22 +84,23 @@ export default function App() {
   return (
     <>
       <Navbar activeSection={activeSection} onNavigate={navigateTo} />
-      <main
-        className="horizontal-stage"
-        ref={railRef}
-        aria-label="Portfolio sections"
-      >
-        <Hero {...pageState} onNavigate={navigateTo} />
-        <About />
-        <ExperienceTimeline />
-        <ProjectExplorer careerLens={careerLens} />
-        <Skills careerLens={careerLens} />
-        <Education />
-        <ResumeNotice />
-        <Contact />
+      <main className="deck-stage" aria-label="Portfolio pages">
+        <div
+          className="deck-track"
+          style={{ transform: `translate3d(-${activeIndex * 100}vw, 0, 0)` }}
+        >
+          <Hero {...pageState} onNavigate={navigateTo} />
+          <About />
+          <ExperienceTimeline />
+          <ProjectExplorer careerLens={careerLens} />
+          <Skills careerLens={careerLens} />
+          <Education />
+          <ResumeNotice />
+          <Contact />
+        </div>
       </main>
       <DeckControls
-        activeSection={activeSection}
+        activeIndex={activeIndex}
         items={panelItems}
         onNavigate={navigateTo}
       />
@@ -221,25 +110,21 @@ export default function App() {
 }
 
 type DeckControlsProps = {
-  activeSection: string;
+  activeIndex: number;
   items: typeof panelItems;
   onNavigate: (href: string) => void;
 };
 
-function DeckControls({ activeSection, items, onNavigate }: DeckControlsProps) {
-  const activeIndex = Math.max(
-    0,
-    items.findIndex((item) => getPanelId(item.href) === activeSection),
-  );
+function DeckControls({ activeIndex, items, onNavigate }: DeckControlsProps) {
   const previous = items[Math.max(activeIndex - 1, 0)];
   const next = items[Math.min(activeIndex + 1, items.length - 1)];
 
   return (
-    <aside className="deck-controls" aria-label="Section navigation">
+    <aside className="deck-controls" aria-label="Page navigation">
       <button
         className="icon-button"
         type="button"
-        aria-label="Previous section"
+        aria-label="Previous page"
         disabled={activeIndex === 0}
         onClick={() => onNavigate(previous.href)}
       >
@@ -255,7 +140,7 @@ function DeckControls({ activeSection, items, onNavigate }: DeckControlsProps) {
           <button
             key={item.href}
             type="button"
-            aria-label={item.label}
+            aria-label={`${item.label} page`}
             className={index === activeIndex ? "is-active" : ""}
             onClick={() => onNavigate(item.href)}
           />
@@ -264,7 +149,7 @@ function DeckControls({ activeSection, items, onNavigate }: DeckControlsProps) {
       <button
         className="icon-button"
         type="button"
-        aria-label="Next section"
+        aria-label="Next page"
         disabled={activeIndex === items.length - 1}
         onClick={() => onNavigate(next.href)}
       >
