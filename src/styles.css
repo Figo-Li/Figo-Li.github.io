@@ -1604,3 +1604,150 @@ body,
     display: none;
   }
 }
+
+/* V4 targeted refinements. */
+#projects {
+  align-items: start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 118, 110, 0.48) transparent;
+}
+
+#projects::-webkit-scrollbar {
+  display: block;
+  width: 10px;
+}
+
+#projects::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.48);
+  background-clip: content-box;
+}
+
+#projects .section-heading.with-action {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  padding-bottom: 16px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 243, 231, 0.98),
+    rgba(255, 243, 231, 0.82)
+  );
+  backdrop-filter: blur(10px);
+}
+
+#projects .project-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-height: none;
+  overflow: visible;
+  padding-bottom: 128px;
+}
+
+#projects .project-card {
+  min-height: 0;
+}
+
+#projects .highlight-list {
+  display: block;
+}
+
+#projects .project-card:nth-child(n),
+#projects .skill-group:nth-child(n) {
+  display: grid;
+}
+
+.education-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.school-badge {
+  width: 78px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 950;
+  font-size: 1.32rem;
+  line-height: 1;
+  box-shadow: 0 16px 34px rgba(16, 23, 35, 0.14);
+  transform: translateZ(0);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    filter 220ms ease;
+}
+
+.school-badge span {
+  transform: translateY(-1px);
+}
+
+.school-badge::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.education-item:hover .school-badge {
+  transform: translateY(-3px) translateZ(0);
+  filter: saturate(1.08);
+  box-shadow: 0 22px 44px rgba(16, 23, 35, 0.18);
+}
+
+.waterloo-badge {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    #050505 0 24%,
+    #f2c300 25% 52%,
+    #d8a300 53% 70%,
+    #050505 71% 100%
+  );
+}
+
+.mcmaster-badge {
+  position: relative;
+  background: linear-gradient(145deg, #7a003c 0 68%, #fdbf57 69% 100%);
+}
+
+@media (max-width: 1120px) {
+  #projects .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  #projects .project-grid {
+    grid-template-columns: 1fr;
+    max-height: none;
+  }
+
+  #projects .project-card:nth-child(n) {
+    display: grid;
+  }
+
+  #projects .project-visual {
+    display: block;
+  }
+
+  .education-heading {
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .school-badge {
+    width: 58px;
+    font-size: 1rem;
+  }
+}

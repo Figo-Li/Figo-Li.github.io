@@ -4,7 +4,6 @@ import {
   GitBranch,
   Link2,
   MapPin,
-  Sparkles,
 } from "lucide-react";
 import type { PointerEvent } from "react";
 import type { CareerLens } from "../config/site";
@@ -86,10 +85,6 @@ export function Hero({ careerLens, setCareerLens, onNavigate }: HeroProps) {
             aria-label="Portrait of Yunze (Figo) Li"
           >
             <img src={profile.photo} alt="Portrait of Yunze (Figo) Li" />
-            <figcaption>
-              <Sparkles size={18} aria-hidden="true" />
-              <span>I turn product ideas into reliable systems.</span>
-            </figcaption>
           </figure>
           <div className="system-strip" aria-label="Engineering focus areas">
             <span>APIs</span>
