@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.pnpm-store/
+%SystemDrive%/
+.DS_Store
+.env
+.env.*
+coverage/
+playwright-report/
+test-results/
