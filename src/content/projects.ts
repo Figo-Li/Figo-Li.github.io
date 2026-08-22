@@ -40,7 +40,7 @@ export const projects: Project[] = [
     name: "Hammerly",
     description:
       "Auction platform with a Vite/React frontend and Express/SQLite backend for listings, bids, watchlists, and JWT auth.",
-    role: "Full-stack implementation across UI pages, API routes, authentication, and persistence.",
+    role: "I built across UI pages, API routes, authentication, and persistence.",
     areas: ["Full-stack", "Backend"],
     technologies: [
       "React",
@@ -89,7 +89,7 @@ export const projects: Project[] = [
     name: "Gin Rummy, With a Twist",
     description:
       "Dozenal Gin Rummy web game with a Next.js frontend, Flask API, room creation, match state, and custom card logic.",
-    role: "Game implementation across room flow, card state, frontend interaction, and backend match endpoints.",
+    role: "I worked across room flow, card state, frontend interaction, and backend match endpoints.",
     areas: ["Full-stack", "Backend", "Cloud"],
     technologies: [
       "Next.js",
@@ -138,7 +138,7 @@ export const projects: Project[] = [
     name: "Lychee Nutrition App",
     description:
       "Resume-verified nutrition assistant using Django, LangChain, GCP, Vertex AI Vector Search, and RAG workflows.",
-    role: "Backend and data pipeline implementation for retrieval, model serving, and personalized meal-planning logic.",
+    role: "I built backend and data-pipeline pieces for retrieval, model serving, and personalized meal-planning logic.",
     areas: ["Backend", "Data / ML", "Cloud"],
     technologies: [
       "Python",
@@ -186,7 +186,7 @@ export const projects: Project[] = [
     name: "Unemployment Rate Prediction Model",
     description:
       "Machine learning system for short-term Canadian unemployment forecasting from multi-source economic indicators.",
-    role: "Collaborative data/ML implementation covering preprocessing, model training, evaluation, and saved artifacts.",
+    role: "I contributed to preprocessing, model training, evaluation, and saved artifacts in this collaborative data/ML project.",
     areas: ["Data / ML"],
     technologies: [
       "Python",
@@ -235,7 +235,7 @@ export const projects: Project[] = [
     name: "Reddit Comments Analysis",
     description:
       "Data collection, annotation, and baseline NLP modeling pipeline for classifying Reddit comment value.",
-    role: "Collaborative pipeline for comment collection, labeling workflow, adjudication, and model baselines.",
+    role: "I contributed to the collection, labeling, adjudication, and baseline-modeling pipeline.",
     areas: ["Data / ML", "NLP"],
     technologies: ["Python", "PRAW", "Pandas", "scikit-learn", "Excel"],
     highlights: [

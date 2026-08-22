@@ -4,8 +4,9 @@ export const profile = {
   name: "Yunze (Figo) Li",
   shortName: "Figo Li",
   role: "Software Engineer & Data Engineer",
+  photo: "/profile-photo.jpg",
   headline:
-    "Software Engineer & Data Engineer building scalable applications, cloud systems, and reliable data pipelines.",
+    "I build scalable applications, cloud systems, and reliable data pipelines with a product-minded engineering style.",
   location: "Kitchener, Ontario, Canada",
   availability:
     "Open to Software Engineering and Data Engineering opportunities",
@@ -13,7 +14,7 @@ export const profile = {
   github: siteConfig.links.github,
   linkedin: siteConfig.links.linkedin,
   about:
-    "Yunze (Figo) Li is a software and data engineer completing a Master of Engineering in Electrical and Computer Engineering at the University of Waterloo. His work connects reliable application development with data engineering: backend APIs, distributed workflows, cloud deployment, data pipelines, and practical automation. Through experience with Bosch-facing data systems, full-stack web projects, and machine learning pipelines, he focuses on systems that are understandable, testable, and resilient enough for real users and operational teams.",
+    "I am a software and data engineer completing a Master of Engineering in Electrical and Computer Engineering at the University of Waterloo. I like building the layer where product experience meets dependable infrastructure: backend APIs, distributed workflows, cloud deployment, data pipelines, and practical automation. My work across Bosch-facing data systems, full-stack web projects, and machine-learning pipelines has shaped how I design systems that are understandable, testable, and resilient enough for real users and operational teams.",
   resumeStatus:
-    "The supplied resume PDF includes a phone number, so Version 1 does not publish the file directly. This section summarizes the verified resume content and can be replaced with a public PDF when a redacted copy is ready.",
+    "My supplied resume PDF includes a phone number, so I do not publish that file directly here. This page summarizes the verified resume content, and I can share a public or redacted PDF by email.",
 };

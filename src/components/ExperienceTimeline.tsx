@@ -11,7 +11,7 @@ export function ExperienceTimeline() {
       <div className="section-heading">
         <p className="eyebrow">Experience</p>
         <h2 id="experience-title">
-          Engineering work across data systems and test automation.
+          I have worked across data systems, automation, and reliability.
         </h2>
       </div>
       <div className="timeline">

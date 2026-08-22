@@ -21,7 +21,7 @@ export function Skills({ careerLens }: SkillsProps) {
       <div className="section-heading">
         <p className="eyebrow">Skills</p>
         <h2 id="skills-title">
-          Grouped by the work recruiters need to evaluate.
+          I organize my toolkit around the systems I like to build.
         </h2>
       </div>
       <div className="skills-grid">

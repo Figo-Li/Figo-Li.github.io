@@ -1,10 +1,12 @@
 import {
-  ArrowDown,
+  ArrowRight,
   ExternalLink,
   GitBranch,
   Link2,
   MapPin,
+  Sparkles,
 } from "lucide-react";
+import type { PointerEvent } from "react";
 import type { CareerLens } from "../config/site";
 import { profile } from "../content/profile";
 import { siteConfig } from "../config/site";
@@ -13,14 +15,21 @@ import { CareerLens as CareerLensControl } from "./CareerLens";
 type HeroProps = {
   careerLens: CareerLens;
   setCareerLens: (lens: CareerLens) => void;
+  onNavigate: (href: string) => void;
 };
 
-export function Hero({ careerLens, setCareerLens }: HeroProps) {
+const updatePortraitLight = (event: PointerEvent<HTMLElement>) => {
+  const rect = event.currentTarget.getBoundingClientRect();
+  const x = ((event.clientX - rect.left) / rect.width) * 100;
+  event.currentTarget.style.setProperty("--light-x", `${x.toFixed(1)}%`);
+};
+
+export function Hero({ careerLens, setCareerLens, onNavigate }: HeroProps) {
   return (
     <section className="hero-section" id="top" aria-labelledby="hero-title">
       <div className="hero-content">
         <div className="hero-copy reveal is-visible">
-          <p className="eyebrow">Portfolio V1</p>
+          <p className="eyebrow">Portfolio V2 / Horizontal Studio</p>
           <h1 id="hero-title">{profile.name}</h1>
           <p className="hero-role">{profile.role}</p>
           <p className="hero-intro">{profile.headline}</p>
@@ -32,13 +41,21 @@ export function Hero({ careerLens, setCareerLens }: HeroProps) {
             <span>{profile.availability}</span>
           </div>
           <div className="hero-actions">
-            <a className="button primary" href="#projects">
+            <button
+              className="button primary"
+              type="button"
+              onClick={() => onNavigate("#projects")}
+            >
               View Projects
-              <ArrowDown size={18} aria-hidden="true" />
-            </a>
-            <a className="button secondary" href="#resume">
+              <ArrowRight size={18} aria-hidden="true" />
+            </button>
+            <button
+              className="button secondary"
+              type="button"
+              onClick={() => onNavigate("#resume")}
+            >
               View Resume
-            </a>
+            </button>
           </div>
           <div className="hero-socials" aria-label="External profile links">
             <a href={siteConfig.links.github} target="_blank" rel="noreferrer">
@@ -62,22 +79,19 @@ export function Hero({ careerLens, setCareerLens }: HeroProps) {
           />
         </div>
 
-        <div
-          className="hero-visual reveal is-visible"
-          aria-label="System themed Yunze Li initials visual"
-        >
-          <div className="initials-panel">
-            <div className="initials">YL</div>
-            <div className="signal-grid">
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
-          <div className="system-strip">
+        <div className="hero-visual reveal is-visible">
+          <figure
+            className="portrait-card"
+            onPointerMove={updatePortraitLight}
+            aria-label="Portrait of Yunze (Figo) Li"
+          >
+            <img src={profile.photo} alt="Portrait of Yunze (Figo) Li" />
+            <figcaption>
+              <Sparkles size={18} aria-hidden="true" />
+              <span>I turn product ideas into reliable systems.</span>
+            </figcaption>
+          </figure>
+          <div className="system-strip" aria-label="Engineering focus areas">
             <span>APIs</span>
             <span>Data</span>
             <span>Cloud</span>

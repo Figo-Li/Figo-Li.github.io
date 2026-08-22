@@ -12,7 +12,7 @@ export function ResumeNotice() {
       <div className="section-heading">
         <p className="eyebrow">Resume</p>
         <h2 id="resume-title">
-          Verified resume content is represented on this page.
+          I keep the public version focused on verified, safe-to-share content.
         </h2>
       </div>
       <div className="resume-notice">

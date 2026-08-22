@@ -30,20 +30,19 @@ export function Contact() {
       <div className="section-heading">
         <p className="eyebrow">Contact</p>
         <h2 id="contact-title">
-          Open to software, backend, data, and cloud engineering roles.
+          I am open to software, backend, data, and cloud engineering roles.
         </h2>
       </div>
       <div className="contact-layout">
         <div>
           <p className="section-lead">
-            The fastest way to reach Yunze is by email. Recruiters and
-            engineering teams can also review public source work on GitHub or
-            connect through LinkedIn.
+            The fastest way to reach me is by email. You can also review my
+            public source work on GitHub or connect with me through LinkedIn.
           </p>
           <div className="contact-actions">
             <a className="button primary" href={`mailto:${siteConfig.email}`}>
               <Mail size={18} aria-hidden="true" />
-              Email Yunze
+              Email Me
             </a>
             <button
               className="button secondary"

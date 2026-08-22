@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { siteConfig } from "./config/site";
+import { profile } from "./content/profile";
 import "./styles.css";
 
 const setMeta = (
@@ -32,15 +33,22 @@ const setLink = (rel: string, href: string) => {
   element.href = href;
 };
 
+const absolutePhotoUrl = new URL(
+  profile.photo.replace(/^\//, ""),
+  siteConfig.url,
+).href;
+
 document.title = siteConfig.title;
 setMeta("description", siteConfig.description);
 setMeta("og:title", siteConfig.title, "property");
 setMeta("og:description", siteConfig.description, "property");
+setMeta("og:image", absolutePhotoUrl, "property");
 setMeta("og:type", "website", "property");
 setMeta("og:url", siteConfig.url, "property");
-setMeta("twitter:card", "summary");
+setMeta("twitter:card", "summary_large_image");
 setMeta("twitter:title", siteConfig.title);
 setMeta("twitter:description", siteConfig.description);
+setMeta("twitter:image", absolutePhotoUrl);
 setLink("canonical", siteConfig.url);
 
 const personJsonLd = {
@@ -49,6 +57,7 @@ const personJsonLd = {
   name: "Yunze (Figo) Li",
   alternateName: "Figo Li",
   url: siteConfig.url,
+  image: absolutePhotoUrl,
   email: `mailto:${siteConfig.email}`,
   address: {
     "@type": "PostalAddress",

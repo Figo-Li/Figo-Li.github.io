@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="site-footer">
       <p>{profile.name}</p>
       <p>
-        Built as a static React portfolio for{" "}
+        Designed and built by me for{" "}
         <a href={siteConfig.url}>{siteConfig.url}</a>.
       </p>
     </footer>

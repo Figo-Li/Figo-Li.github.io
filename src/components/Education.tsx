@@ -8,7 +8,7 @@ export function Education() {
       <div className="section-heading">
         <p className="eyebrow">Education</p>
         <h2 id="education-title">
-          Graduate engineering study with computer science foundation.
+          I pair graduate engineering study with a computer science foundation.
         </h2>
       </div>
       <div className="education-grid">

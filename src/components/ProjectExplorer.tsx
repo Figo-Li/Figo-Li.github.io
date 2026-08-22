@@ -37,7 +37,7 @@ export function ProjectExplorer({ careerLens }: ProjectExplorerProps) {
         <div>
           <p className="eyebrow">Projects</p>
           <h2 id="projects-title">
-            Verified project work, ordered by the selected career lens.
+            Projects I can walk through, ordered by the selected career lens.
           </h2>
         </div>
         <div className="filter-wrap" aria-label="Project filters">
