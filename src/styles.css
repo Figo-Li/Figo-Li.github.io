@@ -1775,19 +1775,19 @@ body,
   background: var(--ink);
   font-weight: 900;
 }
-/* V5 project header polish. */
+/* V6 focused Projects header and Education logos. */
 #projects .section-heading.with-action {
-  grid-template-columns: minmax(280px, 0.78fr) minmax(360px, auto);
+  position: relative;
+  top: auto;
+  z-index: auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: clamp(16px, 2vw, 28px);
-  margin-bottom: 20px;
-  padding: 4px 0 18px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 243, 231, 0.98),
-    rgba(255, 243, 231, 0.88) 70%,
-    rgba(255, 243, 231, 0)
-  );
+  gap: clamp(18px, 2.4vw, 32px);
+  margin: 0 0 22px;
+  padding: 0 0 18px;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 #projects .section-heading.with-action::after {
@@ -1797,79 +1797,69 @@ body,
   right: 0;
   bottom: 0;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(15, 118, 110, 0.34),
-    rgba(215, 224, 232, 0.58),
-    transparent
-  );
+  background: rgba(215, 224, 232, 0.9);
 }
 
 #projects .section-heading.with-action > div:first-child {
-  display: grid;
-  gap: 6px;
+  min-width: 0;
 }
 
 #projects .section-heading h2 {
-  max-width: 680px;
   margin: 0;
-  font-size: clamp(2rem, 2.55vw, 2.72rem);
-  line-height: 1.02;
+  font-size: clamp(2.3rem, 3.2vw, 3.35rem);
+  line-height: 1;
+  font-weight: 950;
 }
 
 #projects .filter-wrap {
   justify-self: end;
-  width: min(100%, 760px);
+  max-width: 100%;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px;
-  border-color: rgba(190, 202, 214, 0.76);
-  background: rgba(255, 255, 255, 0.68);
-  box-shadow:
-    0 14px 34px rgba(16, 23, 35, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(16px);
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 #projects .filter-label {
-  min-height: 34px;
+  min-height: 38px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 0 10px;
-  border-radius: 6px;
+  padding: 0 6px 0 0;
   color: var(--ink);
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   font-weight: 950;
   white-space: nowrap;
 }
 
 #projects .filter-buttons {
-  flex: 1 1 auto;
-  flex-wrap: nowrap;
-  gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
   min-width: 0;
-  overflow-x: auto;
-  padding: 2px;
-  scrollbar-width: none;
-}
-
-#projects .filter-buttons::-webkit-scrollbar {
-  display: none;
+  overflow: visible;
+  padding: 0;
 }
 
 #projects .filter-buttons button {
   flex: 0 0 auto;
-  min-height: 34px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: #5e6a7b;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--muted);
   padding: 0 12px;
   font-size: 0.88rem;
+  font-weight: 900;
   white-space: nowrap;
+  box-shadow: none;
   transition:
+    border-color 160ms ease,
     background 160ms ease,
     color 160ms ease,
     transform 160ms ease;
@@ -1877,13 +1867,34 @@ body,
 
 #projects .filter-buttons button:hover {
   color: var(--ink);
-  background: rgba(15, 118, 110, 0.08);
+  border-color: rgba(15, 118, 110, 0.44);
+  background: #ffffff;
 }
 
 #projects .filter-buttons button.is-selected {
   color: #ffffff;
   background: var(--accent);
-  box-shadow: 0 8px 18px rgba(15, 118, 110, 0.22);
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+.school-logo {
+  display: block;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.waterloo-logo {
+  width: 96px;
+  height: 96px;
+  aspect-ratio: 1;
+}
+
+.mcmaster-logo {
+  width: 156px;
+  height: auto;
+  max-height: 96px;
 }
 
 @media (max-width: 1120px) {
@@ -1892,35 +1903,61 @@ body,
     align-items: start;
   }
 
-  #projects .section-heading h2 {
-    max-width: 760px;
-    font-size: clamp(1.9rem, 4.8vw, 2.45rem);
-  }
-
   #projects .filter-wrap {
     justify-self: stretch;
     width: 100%;
+  }
+
+  #projects .filter-buttons {
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 760px) {
   #projects .section-heading.with-action {
-    margin-bottom: 16px;
-    padding-bottom: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+  }
+
+  #projects .section-heading h2 {
+    font-size: clamp(2rem, 10vw, 2.55rem);
   }
 
   #projects .filter-wrap {
-    padding: 6px;
+    align-items: flex-start;
+    gap: 8px;
   }
 
-  #projects .filter-label {
-    min-height: 32px;
-    padding: 0 8px;
+  #projects .filter-buttons {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  #projects .filter-buttons::-webkit-scrollbar {
+    display: none;
   }
 
   #projects .filter-buttons button {
-    min-height: 32px;
-    padding: 0 10px;
+    min-height: 36px;
+    padding: 0 11px;
     font-size: 0.84rem;
+  }
+
+  .education-heading {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 14px;
+  }
+
+  .waterloo-logo {
+    width: 72px;
+    height: 72px;
+  }
+
+  .mcmaster-logo {
+    width: min(148px, 78vw);
+    max-height: 78px;
   }
 }

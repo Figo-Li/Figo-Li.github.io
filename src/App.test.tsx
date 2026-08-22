@@ -51,6 +51,63 @@ describe("portfolio interactions", () => {
     ).toBeInTheDocument();
   });
 
+  it("keeps the Projects filters and Education logos accessible", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(
+      screen.getByRole("heading", { name: "Projects" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("Case studies by focus area."),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText("Focus")).toBeInTheDocument();
+    expect(screen.getByAltText("University of Waterloo crest")).toHaveAttribute(
+      "src",
+      "/images/education/waterloo-crest.svg",
+    );
+    expect(screen.getByAltText("McMaster University logo")).toHaveAttribute(
+      "src",
+      "/images/education/mcmaster-logo.svg",
+    );
+
+    const expectedByFilter = [
+      [
+        "All",
+        [
+          "Hammerly",
+          "Gin Rummy Twist",
+          "Reddit Comments Analysis Model",
+          "Unemployment Rate Prediction Model",
+          "Startup Time Optimizer Model",
+        ],
+      ],
+      ["NLP", ["Reddit Comments Analysis Model"]],
+      [
+        "Machine Learning",
+        [
+          "Reddit Comments Analysis Model",
+          "Unemployment Rate Prediction Model",
+          "Startup Time Optimizer Model",
+        ],
+      ],
+      ["Full-stack", ["Hammerly", "Gin Rummy Twist"]],
+      ["Game", ["Gin Rummy Twist"]],
+      ["Optimization", ["Startup Time Optimizer Model"]],
+      ["Backend", ["Hammerly", "Gin Rummy Twist"]],
+    ] as const;
+
+    for (const [filter, headings] of expectedByFilter) {
+      await user.click(screen.getByRole("button", { name: filter }));
+
+      for (const heading of headings) {
+        expect(
+          screen.getByRole("heading", { name: heading }),
+        ).toBeInTheDocument();
+      }
+    }
+  });
+
   it("copies the public email address", async () => {
     Object.defineProperty(document, "execCommand", {
       configurable: true,

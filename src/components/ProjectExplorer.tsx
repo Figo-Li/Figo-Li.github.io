@@ -35,8 +35,7 @@ export function ProjectExplorer({ careerLens }: ProjectExplorerProps) {
     >
       <div className="section-heading with-action">
         <div>
-          <p className="eyebrow">Projects</p>
-          <h2 id="projects-title">Case studies by focus area.</h2>
+          <h2 id="projects-title">Projects</h2>
         </div>
         <div className="filter-wrap" aria-label="Project filters">
           <span className="filter-label">

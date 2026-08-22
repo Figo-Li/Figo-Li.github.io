@@ -14,12 +14,15 @@ export function Education() {
       <div className="education-grid">
         <article className="education-item waterloo-card">
           <div className="education-heading">
-            <div
-              className="school-badge waterloo-badge"
-              aria-label="University of Waterloo badge"
-            >
-              <span>UW</span>
-            </div>
+            <img
+              className="school-logo waterloo-logo"
+              src="/images/education/waterloo-crest.svg"
+              alt="University of Waterloo crest"
+              width="100"
+              height="100"
+              loading="lazy"
+              decoding="async"
+            />
             <div>
               <p className="item-kicker">September 2025 - December 2026</p>
               <h3>University of Waterloo</h3>
@@ -30,12 +33,15 @@ export function Education() {
         </article>
         <article className="education-item mcmaster-card">
           <div className="education-heading">
-            <div
-              className="school-badge mcmaster-badge"
-              aria-label="McMaster University badge"
-            >
-              <span>M</span>
-            </div>
+            <img
+              className="school-logo mcmaster-logo"
+              src="/images/education/mcmaster-logo.svg"
+              alt="McMaster University logo"
+              width="156"
+              height="82"
+              loading="lazy"
+              decoding="async"
+            />
             <div>
               <p className="item-kicker">September 2020 - June 2025</p>
               <h3>McMaster University</h3>
