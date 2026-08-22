@@ -89,7 +89,7 @@ function ProjectCard({ project, expanded, onToggle }: ProjectCardProps) {
       <div className="project-card-body">
         <div className="project-title-row">
           <div>
-            <p className="item-kicker">{project.areas.join(" / ")}</p>
+            <p className="item-kicker">{project.category}</p>
             <h3>{project.name}</h3>
           </div>
           {project.repository ? (
@@ -234,6 +234,15 @@ function ProjectVisual({ type }: { type: Project["visual"] }) {
         </>
       ) : null}
       {type === "forecast" ? <span className="chart-line" /> : null}
+      {type === "optimizer" ? (
+        <>
+          <span className="optimizer-track" />
+          <span className="optimizer-dot one" />
+          <span className="optimizer-dot two" />
+          <span className="optimizer-dot three" />
+          <span className="optimizer-gain">-42%</span>
+        </>
+      ) : null}
       {type === "nlp" ? (
         <>
           <span className="comment-bar" />

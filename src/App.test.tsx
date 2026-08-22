@@ -21,28 +21,33 @@ describe("portfolio interactions", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole("button", { name: "Data / ML" }));
+    await user.click(screen.getByRole("button", { name: "NLP" }));
 
     expect(
-      screen.getByRole("heading", { name: "Lychee Nutrition App" }),
+      screen.getByRole("heading", { name: "Reddit Comments Analysis Model" }),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("heading", { name: "Hammerly" }),
     ).not.toBeInTheDocument();
 
-    const lycheeCard = screen
-      .getByRole("heading", { name: "Lychee Nutrition App" })
+    const redditCard = screen
+      .getByRole("heading", { name: "Reddit Comments Analysis Model" })
       .closest("article");
-    expect(lycheeCard).not.toBeNull();
+    expect(redditCard).not.toBeNull();
+    const categoryLabel = (redditCard as HTMLElement).querySelector(
+      ".item-kicker",
+    );
+    expect(categoryLabel).not.toBeNull();
+    expect(categoryLabel).toHaveTextContent("NLP");
 
     await user.click(
-      within(lycheeCard as HTMLElement).getByRole("button", {
+      within(redditCard as HTMLElement).getByRole("button", {
         name: "Expand case study",
       }),
     );
 
     expect(
-      within(lycheeCard as HTMLElement).getByText("Problem"),
+      within(redditCard as HTMLElement).getByText("Problem"),
     ).toBeInTheDocument();
   });
 

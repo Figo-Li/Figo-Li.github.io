@@ -5,7 +5,6 @@ import {
   Link2,
   MapPin,
 } from "lucide-react";
-import type { PointerEvent } from "react";
 import type { CareerLens } from "../config/site";
 import { profile } from "../content/profile";
 import { siteConfig } from "../config/site";
@@ -15,12 +14,6 @@ type HeroProps = {
   careerLens: CareerLens;
   setCareerLens: (lens: CareerLens) => void;
   onNavigate: (href: string) => void;
-};
-
-const updatePortraitLight = (event: PointerEvent<HTMLElement>) => {
-  const rect = event.currentTarget.getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width) * 100;
-  event.currentTarget.style.setProperty("--light-x", `${x.toFixed(1)}%`);
 };
 
 export function Hero({ careerLens, setCareerLens, onNavigate }: HeroProps) {
@@ -81,7 +74,6 @@ export function Hero({ careerLens, setCareerLens, onNavigate }: HeroProps) {
         <div className="hero-visual reveal is-visible">
           <figure
             className="portrait-card"
-            onPointerMove={updatePortraitLight}
             aria-label="Portrait of Yunze (Figo) Li"
           >
             <img src={profile.photo} alt="Portrait of Yunze (Figo) Li" />

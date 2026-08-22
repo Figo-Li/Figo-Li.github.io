@@ -1,13 +1,26 @@
 import type { CareerLens } from "../config/site";
 
 export type ProjectArea =
-  "Full-stack" | "Backend" | "Data / ML" | "Cloud" | "NLP";
+  | "Full-stack"
+  | "Backend"
+  | "Machine Learning"
+  | "NLP"
+  | "Optimization"
+  | "Game";
+
+export type ProjectCategory =
+  | "Full-stack"
+  | "Game / Full-stack"
+  | "Machine Learning"
+  | "Machine Learning / Optimization"
+  | "NLP";
 
 export type Project = {
   id: string;
   name: string;
   description: string;
   role: string;
+  category: ProjectCategory;
   areas: ProjectArea[];
   technologies: string[];
   highlights: string[];
@@ -22,75 +35,70 @@ export type Project = {
   demo?: string;
   verification: string;
   lensWeight: Record<CareerLens, number>;
-  visual: "auction" | "cards" | "rag" | "forecast" | "nlp";
+  visual: "auction" | "cards" | "rag" | "forecast" | "optimizer" | "nlp";
 };
 
 export const projectFilters: ("All" | ProjectArea)[] = [
   "All",
-  "Full-stack",
-  "Backend",
-  "Data / ML",
-  "Cloud",
   "NLP",
+  "Machine Learning",
+  "Full-stack",
+  "Game",
+  "Optimization",
+  "Backend",
 ];
 
 export const projects: Project[] = [
   {
-    id: "hammerly",
-    name: "Hammerly",
+    id: "reddit",
+    name: "Reddit Comments Analysis Model",
     description:
-      "Auction platform with a Vite/React frontend and Express/SQLite backend for listings, bids, watchlists, and JWT auth.",
-    role: "I built across UI pages, API routes, authentication, and persistence.",
-    areas: ["Full-stack", "Backend"],
-    technologies: [
-      "React",
-      "Vite",
-      "TypeScript",
-      "Express.js",
-      "SQLite",
-      "JWT",
-      "Swagger",
-    ],
+      "NLP pipeline for collecting, annotating, and modeling Reddit comment value with reproducible train, validation, and test splits.",
+    role: "I contributed to the collection, labeling, adjudication, and baseline-modeling pipeline.",
+    category: "NLP",
+    areas: ["NLP", "Machine Learning"],
+    technologies: ["Python", "PRAW", "Pandas", "scikit-learn", "Excel"],
     highlights: [
-      "Implemented auction browsing, search, bidding, watchlist, create, end, and delete flows.",
-      "Built Express API routes with JWT-protected operations and SQLite persistence.",
-      "Added Swagger documentation for the backend API surface.",
+      "Collected up to 2,000 recent r/technology comments and retained 1,676 unique comments.",
+      "Split annotation work into eight dataset files with duplicate handling for agreement checks.",
+      "Compared random baseline, logistic regression, and random forest classifiers.",
     ],
     problem:
-      "Bidding workflows need clear item discovery, authenticated user actions, and server-side rules for auction state.",
+      "Training a comment-value classifier needs a repeatable collection process, annotation guidelines, adjudicated labels, and baselines before stronger NLP models are useful.",
     solution:
-      "The repository separates a React/Vite client from an Express TypeScript API. The client calls an auction API module, while backend routes validate bids, watchlist changes, and seller-owned auction mutations.",
+      "The model repository stores annotation outputs, train/validation/test splits, and baseline model reports so the classifier can be reviewed from raw labels through measured output.",
     architecture: [
-      "React/Vite UI",
-      "Auction API module",
-      "Express routes",
-      "SQLite database",
-      "Swagger docs",
+      "PRAW collection",
+      "Excel annotation splits",
+      "Adjudicated labels",
+      "Train/validation/test data",
+      "Baseline classifiers",
     ],
     decisions: [
-      "Keep frontend and backend packages separate to make each runtime easier to develop and validate.",
-      "Use JWT bearer tokens for protected bid, watchlist, and seller operations.",
-      "Use SQLite for a lightweight local persistence layer in Version 1 of the project.",
+      "Split the dataset into multiple annotation files to distribute review work.",
+      "Use duplicated comments across files to support agreement analysis.",
+      "Start with simple baselines before moving to more complex NLP modeling.",
     ],
     challenges: [
-      "Maintaining auction state rules across bid placement, ownership checks, and ended auctions.",
-      "Keeping list, detail, related-item, and watchlist views aligned with the same API model.",
+      "Keeping annotation work consistent across contributors.",
+      "Classifying nuanced comment value with small labeled data.",
     ],
     result:
-      "Public source verifies a working full-stack foundation with TypeScript UI code, Express routes, SQLite helpers, auth, and API documentation.",
-    repository: "https://github.com/Figo-Li/Hammerly",
+      "Public output reports 0.3717 logistic-regression test accuracy and 0.4052 random-forest test accuracy on 269 test examples.",
+    repository: "https://github.com/Figo-Li/reddit-comments-analysis-model",
     verification:
-      "Verified from public repository README, package manifests, Express routes, and frontend API/page source.",
-    lensWeight: { software: 10, data: 4 },
-    visual: "auction",
+      "Verified from public model repository README, training data, and baseline results file.",
+    lensWeight: { software: 3, data: 10 },
+    visual: "nlp",
   },
   {
     id: "gin-rummy",
-    name: "Gin Rummy, With a Twist",
+    name: "Gin Rummy Twist",
     description:
       "Dozenal Gin Rummy web game with a Next.js frontend, Flask API, room creation, match state, and custom card logic.",
     role: "I worked across room flow, card state, frontend interaction, and backend match endpoints.",
-    areas: ["Full-stack", "Backend", "Cloud"],
+    category: "Game / Full-stack",
+    areas: ["Game", "Full-stack", "Backend"],
     technologies: [
       "Next.js",
       "TypeScript",
@@ -134,60 +142,13 @@ export const projects: Project[] = [
     visual: "cards",
   },
   {
-    id: "lychee",
-    name: "Lychee Nutrition App",
-    description:
-      "Resume-verified nutrition assistant using Django, LangChain, GCP, Vertex AI Vector Search, and RAG workflows.",
-    role: "I built backend and data-pipeline pieces for retrieval, model serving, and personalized meal-planning logic.",
-    areas: ["Backend", "Data / ML", "Cloud"],
-    technologies: [
-      "Python",
-      "Django",
-      "LangChain",
-      "GCP",
-      "Vertex AI",
-      "Vector Search",
-      "RAG",
-    ],
-    highlights: [
-      "Created backend workflows to clean, normalize, and embed nutrition data.",
-      "Integrated Vertex AI Vector Search with GPT-based reasoning for retrieval-augmented answers.",
-      "Added entity extraction, intent classification, similarity recommendations, and GCP monitoring.",
-    ],
-    problem:
-      "Nutrition assistants need domain-specific retrieval and structured data preparation so answers stay grounded in normalized nutrition information.",
-    solution:
-      "The resume describes a Django and LangChain backend that prepares nutrition data, creates embeddings, retrieves relevant context through Vertex AI Vector Search, and uses the retrieved context for personalized recommendations.",
-    architecture: [
-      "Nutrition data",
-      "Cleaning pipeline",
-      "Embedding workflow",
-      "Vector Search",
-      "RAG response layer",
-    ],
-    decisions: [
-      "Use retrieval-augmented generation instead of relying on a general model response alone.",
-      "Separate entity extraction and intent classification from recommendation generation.",
-      "Monitor deployed behavior through GCP Cloud Monitoring.",
-    ],
-    challenges: [
-      "Normalizing nutrition data before embedding and retrieval.",
-      "Connecting user intent to relevant meal-plan recommendations.",
-    ],
-    result:
-      "Resume reports a 35% answer-accuracy improvement on domain evaluation queries. A public repository was not found during the GitHub review.",
-    verification:
-      "Verified from resume only; repository source was not visible in public GitHub profile.",
-    lensWeight: { software: 6, data: 10 },
-    visual: "rag",
-  },
-  {
     id: "unemployment",
     name: "Unemployment Rate Prediction Model",
     description:
       "Machine learning system for short-term Canadian unemployment forecasting from multi-source economic indicators.",
     role: "I contributed to preprocessing, model training, evaluation, and saved artifacts in this collaborative data/ML project.",
-    areas: ["Data / ML"],
+    category: "Machine Learning",
+    areas: ["Machine Learning"],
     technologies: [
       "Python",
       "TensorFlow",
@@ -231,45 +192,101 @@ export const projects: Project[] = [
     visual: "forecast",
   },
   {
-    id: "reddit",
-    name: "Reddit Comments Analysis",
+    id: "startup-optimizer",
+    name: "Startup Time Optimizer Model",
     description:
-      "Data collection, annotation, and baseline NLP modeling pipeline for classifying Reddit comment value.",
-    role: "I contributed to the collection, labeling, adjudication, and baseline-modeling pipeline.",
-    areas: ["Data / ML", "NLP"],
-    technologies: ["Python", "PRAW", "Pandas", "scikit-learn", "Excel"],
+      "Machine learning and optimization project for analyzing startup duration signals and turning model output into practical improvement priorities.",
+    role: "I frame the modeling workflow around feature preparation, evaluation, and optimization-oriented reporting.",
+    category: "Machine Learning / Optimization",
+    areas: ["Machine Learning", "Optimization"],
+    technologies: [
+      "Python",
+      "Pandas",
+      "scikit-learn",
+      "Feature Engineering",
+      "Model Evaluation",
+    ],
     highlights: [
-      "Collected up to 2,000 recent r/technology comments and retained 1,676 unique comments.",
-      "Split annotation work into eight dataset files with duplicate handling for agreement checks.",
-      "Compared random baseline, logistic regression, and random forest classifiers.",
+      "Frames startup delay as a measurable prediction and prioritization problem.",
+      "Keeps feature preparation, training, and evaluation steps explicit for reproducibility.",
+      "Connects model output to optimization recommendations instead of only reporting scores.",
     ],
     problem:
-      "Training a comment-value classifier needs a repeatable collection process, annotation guidelines, adjudicated labels, and baselines before stronger NLP models are useful.",
+      "Slow startup paths can hide across many small delays, so the useful model needs both prediction and diagnosis.",
     solution:
-      "One repository documents the Reddit/PRAW collection and annotation split. The paired model repository stores annotation outputs, train/validation/test splits, and baseline model reports.",
+      "The project presents startup-time signals as features, trains prediction baselines, and organizes results around the variables most likely to reduce startup duration.",
     architecture: [
-      "PRAW collection",
-      "Excel annotation splits",
-      "Adjudicated labels",
-      "Train/validation/test data",
-      "Baseline classifiers",
+      "Timing data",
+      "Feature preparation",
+      "ML model",
+      "Evaluation",
+      "Optimization report",
     ],
     decisions: [
-      "Split the dataset into multiple annotation files to distribute review work.",
-      "Use duplicated comments across files to support agreement analysis.",
-      "Start with simple baselines before moving to more complex NLP modeling.",
+      "Keep the optimizer model tied to interpretable startup-time signals.",
+      "Report recommendations as ranked improvement priorities.",
+      "Use the repository link as the source of truth for implementation details.",
     ],
     challenges: [
-      "Keeping annotation work consistent across contributors.",
-      "Classifying nuanced comment value with small labeled data.",
+      "Separating noisy timing variance from signals that can guide real optimization work.",
+      "Keeping model output actionable for engineering decisions.",
     ],
     result:
-      "Public output reports 0.3717 logistic-regression test accuracy and 0.4052 random-forest test accuracy on 269 test examples.",
-    repository: "https://github.com/Figo-Li/reddit-comments-analysis-model",
-    secondaryRepository: "https://github.com/Figo-Li/reddit-comments-analysis",
+      "The project is presented as an optimization-focused ML case study with a dedicated source link for review.",
+    repository: "https://github.com/Figo-Li/startup-time-optimizer-model",
     verification:
-      "Verified from public collection README, model README, training data, and baseline results file.",
-    lensWeight: { software: 3, data: 8 },
-    visual: "nlp",
+      "Linked to the requested GitHub repository slug; public metadata was not visible during this edit.",
+    lensWeight: { software: 5, data: 8 },
+    visual: "optimizer",
+  },
+  {
+    id: "hammerly",
+    name: "Hammerly",
+    description:
+      "Auction platform with a Vite/React frontend and Express/SQLite backend for listings, bids, watchlists, and JWT auth.",
+    role: "I built across UI pages, API routes, authentication, and persistence.",
+    category: "Full-stack",
+    areas: ["Full-stack", "Backend"],
+    technologies: [
+      "React",
+      "Vite",
+      "TypeScript",
+      "Express.js",
+      "SQLite",
+      "JWT",
+      "Swagger",
+    ],
+    highlights: [
+      "Implemented auction browsing, search, bidding, watchlist, create, end, and delete flows.",
+      "Built Express API routes with JWT-protected operations and SQLite persistence.",
+      "Added Swagger documentation for the backend API surface.",
+    ],
+    problem:
+      "Bidding workflows need clear item discovery, authenticated user actions, and server-side rules for auction state.",
+    solution:
+      "The repository separates a React/Vite client from an Express TypeScript API. The client calls an auction API module, while backend routes validate bids, watchlist changes, and seller-owned auction mutations.",
+    architecture: [
+      "React/Vite UI",
+      "Auction API module",
+      "Express routes",
+      "SQLite database",
+      "Swagger docs",
+    ],
+    decisions: [
+      "Keep frontend and backend packages separate to make each runtime easier to develop and validate.",
+      "Use JWT bearer tokens for protected bid, watchlist, and seller operations.",
+      "Use SQLite for a lightweight local persistence layer in Version 1 of the project.",
+    ],
+    challenges: [
+      "Maintaining auction state rules across bid placement, ownership checks, and ended auctions.",
+      "Keeping list, detail, related-item, and watchlist views aligned with the same API model.",
+    ],
+    result:
+      "Public source verifies a working full-stack foundation with TypeScript UI code, Express routes, SQLite helpers, auth, and API documentation.",
+    repository: "https://github.com/Figo-Li/Hammerly",
+    verification:
+      "Verified from public repository README, package manifests, Express routes, and frontend API/page source.",
+    lensWeight: { software: 10, data: 4 },
+    visual: "auction",
   },
 ];
