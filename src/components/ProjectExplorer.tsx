@@ -36,12 +36,13 @@ export function ProjectExplorer({ careerLens }: ProjectExplorerProps) {
       <div className="section-heading with-action">
         <div>
           <p className="eyebrow">Projects</p>
-          <h2 id="projects-title">
-            Projects I can walk through, ordered by the selected career lens.
-          </h2>
+          <h2 id="projects-title">Case studies by focus area.</h2>
         </div>
         <div className="filter-wrap" aria-label="Project filters">
-          <Filter size={18} aria-hidden="true" />
+          <span className="filter-label">
+            <Filter size={16} aria-hidden="true" />
+            Focus
+          </span>
           <div className="filter-buttons">
             {projectFilters.map((option) => (
               <button
