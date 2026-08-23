@@ -4,17 +4,52 @@ import App from "./App";
 
 describe("portfolio interactions", () => {
   beforeEach(() => {
-    sessionStorage.clear();
+    Element.prototype.scrollIntoView = vi.fn();
+    window.history.replaceState(null, "", "/");
   });
 
-  it("persists and reflects the selected career lens", async () => {
-    const user = userEvent.setup();
+  it("renders the merged hero and about homepage without the old role selector", () => {
     render(<App />);
 
-    await user.click(screen.getByRole("button", { name: "Data Engineering" }));
+    expect(
+      screen.getByRole("heading", { name: "Yunze (Figo) Li" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Software Engineer")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /I’m Yunze \(Figo\) Li, a Master of Engineering student/,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "I build reliable software from backend systems to real-time products.",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Most of my experience is in backend development/),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Software Engineering" }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("lens-copy")).not.toBeInTheDocument();
+    expect(screen.queryByText("APIs")).not.toBeInTheDocument();
+  });
 
-    expect(screen.getByTestId("lens-copy")).toHaveTextContent("Data lens");
-    expect(sessionStorage.getItem("figo-career-lens")).toBe("data");
+  it("keeps the requested homepage section order", () => {
+    const { container } = render(<App />);
+    const sectionIds = [...container.querySelectorAll("main > section")].map(
+      (section) => section.id,
+    );
+
+    expect(sectionIds.slice(0, 7)).toEqual([
+      "top",
+      "about",
+      "experience",
+      "projects",
+      "skills",
+      "education",
+      "contact",
+    ]);
   });
 
   it("filters projects and expands a case study", async () => {
@@ -51,7 +86,7 @@ describe("portfolio interactions", () => {
     ).toBeInTheDocument();
   });
 
-  it("keeps the Projects filters and Education logos accessible", async () => {
+  it("keeps the Projects filters, repository links, and Education logos accessible", async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -71,15 +106,46 @@ describe("portfolio interactions", () => {
       "/images/education/mcmaster-logo.svg",
     );
 
+    expect(
+      screen.getByRole("link", {
+        name: "Reddit Comments Analysis Model repository",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/Figo-Li/reddit-comments-analysis-model",
+    );
+    expect(
+      screen.getByRole("link", { name: "Gin Rummy Twist repository" }),
+    ).toHaveAttribute("href", "https://github.com/Figo-Li/gin-rummy-twist");
+    expect(
+      screen.getByRole("link", {
+        name: "Unemployment Rate Prediction Model repository",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/Figo-Li/unemployment-rate-predict-model",
+    );
+    expect(
+      screen.getByRole("link", {
+        name: "Startup Time Optimizer Model repository",
+      }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/Figo-Li/startup-time-optimizer-model",
+    );
+    expect(
+      screen.getByRole("link", { name: "Hammerly repository" }),
+    ).toHaveAttribute("href", "https://github.com/Figo-Li/Hammerly");
+
     const expectedByFilter = [
       [
         "All",
         [
-          "Hammerly",
-          "Gin Rummy Twist",
           "Reddit Comments Analysis Model",
+          "Gin Rummy Twist",
           "Unemployment Rate Prediction Model",
           "Startup Time Optimizer Model",
+          "Hammerly",
         ],
       ],
       ["NLP", ["Reddit Comments Analysis Model"]],
@@ -91,10 +157,10 @@ describe("portfolio interactions", () => {
           "Startup Time Optimizer Model",
         ],
       ],
-      ["Full-stack", ["Hammerly", "Gin Rummy Twist"]],
+      ["Full-stack", ["Gin Rummy Twist", "Hammerly"]],
       ["Game", ["Gin Rummy Twist"]],
       ["Optimization", ["Startup Time Optimizer Model"]],
-      ["Backend", ["Hammerly", "Gin Rummy Twist"]],
+      ["Backend", ["Gin Rummy Twist", "Hammerly"]],
     ] as const;
 
     for (const [filter, headings] of expectedByFilter) {

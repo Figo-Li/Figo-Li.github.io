@@ -1,5 +1,3 @@
-import type { CareerLens } from "../config/site";
-
 export type ProjectArea =
   | "Full-stack"
   | "Backend"
@@ -34,7 +32,6 @@ export type Project = {
   secondaryRepository?: string;
   demo?: string;
   verification: string;
-  lensWeight: Record<CareerLens, number>;
   visual: "auction" | "cards" | "rag" | "forecast" | "optimizer" | "nlp";
 };
 
@@ -88,7 +85,6 @@ export const projects: Project[] = [
     repository: "https://github.com/Figo-Li/reddit-comments-analysis-model",
     verification:
       "Verified from public model repository README, training data, and baseline results file.",
-    lensWeight: { software: 3, data: 10 },
     visual: "nlp",
   },
   {
@@ -138,7 +134,6 @@ export const projects: Project[] = [
     repository: "https://github.com/Figo-Li/gin-rummy-twist",
     verification:
       "Verified from public repository README, source tree, Flask app, match model, frontend pages, package manifest, and local HTTP check of the listed homepage.",
-    lensWeight: { software: 9, data: 3 },
     visual: "cards",
   },
   {
@@ -188,7 +183,6 @@ export const projects: Project[] = [
     repository: "https://github.com/Figo-Li/unemployment-rate-predict-model",
     verification:
       "Verified from public repository README, project description, requirements, datasets, and model artifacts.",
-    lensWeight: { software: 4, data: 9 },
     visual: "forecast",
   },
   {
@@ -236,7 +230,6 @@ export const projects: Project[] = [
     repository: "https://github.com/Figo-Li/startup-time-optimizer-model",
     verification:
       "Linked to the requested GitHub repository slug; public metadata was not visible during this edit.",
-    lensWeight: { software: 5, data: 8 },
     visual: "optimizer",
   },
   {
@@ -286,7 +279,6 @@ export const projects: Project[] = [
     repository: "https://github.com/Figo-Li/Hammerly",
     verification:
       "Verified from public repository README, package manifests, Express routes, and frontend API/page source.",
-    lensWeight: { software: 10, data: 4 },
     visual: "auction",
   },
 ];

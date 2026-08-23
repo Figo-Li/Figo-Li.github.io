@@ -5,23 +5,19 @@ import {
   Link2,
   MapPin,
 } from "lucide-react";
-import type { CareerLens } from "../config/site";
 import { profile } from "../content/profile";
 import { siteConfig } from "../config/site";
-import { CareerLens as CareerLensControl } from "./CareerLens";
 
 type HeroProps = {
-  careerLens: CareerLens;
-  setCareerLens: (lens: CareerLens) => void;
   onNavigate: (href: string) => void;
 };
 
-export function Hero({ careerLens, setCareerLens, onNavigate }: HeroProps) {
+export function Hero({ onNavigate }: HeroProps) {
   return (
     <section className="hero-section" id="top" aria-labelledby="hero-title">
       <div className="hero-content">
         <div className="hero-copy reveal is-visible">
-          <p className="eyebrow">Portfolio V2 / Horizontal Studio</p>
+          <p className="eyebrow">Portfolio / Software Engineer</p>
           <h1 id="hero-title">{profile.name}</h1>
           <p className="hero-role">{profile.role}</p>
           <p className="hero-intro">{profile.headline}</p>
@@ -65,10 +61,6 @@ export function Hero({ careerLens, setCareerLens, onNavigate }: HeroProps) {
               <ExternalLink size={14} aria-hidden="true" />
             </a>
           </div>
-          <CareerLensControl
-            careerLens={careerLens}
-            setCareerLens={setCareerLens}
-          />
         </div>
 
         <div className="hero-visual reveal is-visible">
@@ -78,12 +70,6 @@ export function Hero({ careerLens, setCareerLens, onNavigate }: HeroProps) {
           >
             <img src={profile.photo} alt="Portrait of Yunze (Figo) Li" />
           </figure>
-          <div className="system-strip" aria-label="Engineering focus areas">
-            <span>APIs</span>
-            <span>Data</span>
-            <span>Cloud</span>
-            <span>CI/CD</span>
-          </div>
         </div>
       </div>
     </section>

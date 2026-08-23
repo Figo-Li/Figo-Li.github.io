@@ -1,6 +1,4 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import type { CareerLens } from "./config/site";
+import { useEffect, useState } from "react";
 import { siteConfig } from "./config/site";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
@@ -13,40 +11,28 @@ import { ResumeNotice } from "./components/ResumeNotice";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 
-const lensStorageKey = "figo-career-lens";
-const panelItems = [{ label: "Intro", href: "#top" }, ...siteConfig.navItems];
+const sectionHrefs = ["#top", ...siteConfig.navItems.map((item) => item.href)];
 
-const readInitialLens = (): CareerLens => {
-  if (typeof sessionStorage === "undefined") return "software";
-  const stored = sessionStorage.getItem(lensStorageKey);
-  return stored === "data" ? "data" : "software";
+const getSectionId = (href: string) => href.replace("#", "") || "top";
+
+const readInitialSection = () => {
+  if (typeof window === "undefined") return "top";
+  return getSectionId(window.location.hash || "#top");
 };
 
-const getPanelId = (href: string) => href.replace("#", "");
-const getPanelIndex = (sectionId: string) =>
-  Math.max(
-    0,
-    panelItems.findIndex((item) => getPanelId(item.href) === sectionId),
-  );
-
 export default function App() {
-  const [careerLens, setCareerLens] = useState<CareerLens>(readInitialLens);
-  const [activeIndex, setActiveIndex] = useState(() => {
-    if (typeof window === "undefined") return 0;
-    return getPanelIndex(window.location.hash.replace("#", "") || "top");
-  });
-
-  const activeSection = getPanelId(panelItems[activeIndex]?.href ?? "#top");
+  const [activeSection, setActiveSection] = useState(readInitialSection);
 
   const navigateTo = (href: string) => {
-    const nextIndex = getPanelIndex(getPanelId(href));
-    setActiveIndex(nextIndex);
-    window.history.replaceState(null, "", panelItems[nextIndex].href);
-  };
+    const sectionId = getSectionId(href);
+    const target = document.getElementById(sectionId);
 
-  useEffect(() => {
-    sessionStorage.setItem(lensStorageKey, careerLens);
-  }, [careerLens]);
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.pushState(null, "", href);
+    setActiveSection(sectionId);
+  };
 
   useEffect(() => {
     const revealTargets = document.querySelectorAll<HTMLElement>(".reveal");
@@ -54,107 +40,70 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight" || event.key === "PageDown") {
-        event.preventDefault();
-        setActiveIndex((index) => Math.min(index + 1, panelItems.length - 1));
-      }
-      if (event.key === "ArrowLeft" || event.key === "PageUp") {
-        event.preventDefault();
-        setActiveIndex((index) => Math.max(index - 1, 0));
-      }
+    const scrollToCurrentHash = () => {
+      const sectionId = getSectionId(window.location.hash || "#top");
+      const target = document.getElementById(sectionId);
+
+      if (!target) return;
+
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      setActiveSection(sectionId);
     };
 
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("popstate", scrollToCurrentHash);
+    window.addEventListener("hashchange", scrollToCurrentHash);
+
+    if (window.location.hash) {
+      requestAnimationFrame(scrollToCurrentHash);
+    }
+
+    return () => {
+      window.removeEventListener("popstate", scrollToCurrentHash);
+      window.removeEventListener("hashchange", scrollToCurrentHash);
+    };
   }, []);
 
   useEffect(() => {
-    window.history.replaceState(null, "", panelItems[activeIndex].href);
-  }, [activeIndex]);
+    const sections = sectionHrefs
+      .map((href) => document.getElementById(getSectionId(href)))
+      .filter((section): section is HTMLElement => Boolean(section));
 
-  const pageState = useMemo(
-    () => ({
-      careerLens,
-      setCareerLens,
-    }),
-    [careerLens],
-  );
+    if (!sections.length || !("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visibleSection?.target.id) {
+          setActiveSection(visibleSection.target.id);
+        }
+      },
+      {
+        rootMargin: "-28% 0px -58% 0px",
+        threshold: [0.12, 0.34, 0.62],
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
       <Navbar activeSection={activeSection} onNavigate={navigateTo} />
-      <main className="deck-stage" aria-label="Portfolio pages">
-        <div
-          className="deck-track"
-          style={{ transform: `translate3d(-${activeIndex * 100}vw, 0, 0)` }}
-        >
-          <Hero {...pageState} onNavigate={navigateTo} />
-          <About />
-          <ExperienceTimeline />
-          <ProjectExplorer careerLens={careerLens} />
-          <Skills careerLens={careerLens} />
-          <Education />
-          <ResumeNotice />
-          <Contact />
-        </div>
+      <main className="site-main" aria-label="Portfolio content">
+        <Hero onNavigate={navigateTo} />
+        <About />
+        <ExperienceTimeline />
+        <ProjectExplorer />
+        <Skills />
+        <Education />
+        <Contact />
+        <ResumeNotice />
       </main>
-      <DeckControls
-        activeIndex={activeIndex}
-        items={panelItems}
-        onNavigate={navigateTo}
-      />
       <Footer />
     </>
-  );
-}
-
-type DeckControlsProps = {
-  activeIndex: number;
-  items: typeof panelItems;
-  onNavigate: (href: string) => void;
-};
-
-function DeckControls({ activeIndex, items, onNavigate }: DeckControlsProps) {
-  const previous = items[Math.max(activeIndex - 1, 0)];
-  const next = items[Math.min(activeIndex + 1, items.length - 1)];
-
-  return (
-    <aside className="deck-controls" aria-label="Page navigation">
-      <button
-        className="icon-button"
-        type="button"
-        aria-label="Previous page"
-        disabled={activeIndex === 0}
-        onClick={() => onNavigate(previous.href)}
-      >
-        <ArrowLeft size={18} aria-hidden="true" />
-      </button>
-      <div className="deck-progress" aria-hidden="true">
-        <span
-          style={{ width: `${((activeIndex + 1) / items.length) * 100}%` }}
-        />
-      </div>
-      <div className="deck-dots">
-        {items.map((item, index) => (
-          <button
-            key={item.href}
-            type="button"
-            aria-label={`${item.label} page`}
-            className={index === activeIndex ? "is-active" : ""}
-            onClick={() => onNavigate(item.href)}
-          />
-        ))}
-      </div>
-      <button
-        className="icon-button"
-        type="button"
-        aria-label="Next page"
-        disabled={activeIndex === items.length - 1}
-        onClick={() => onNavigate(next.href)}
-      >
-        <ArrowRight size={18} aria-hidden="true" />
-      </button>
-    </aside>
   );
 }

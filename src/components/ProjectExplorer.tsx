@@ -1,6 +1,5 @@
 import { ChevronDown, ExternalLink, Filter, GitBranch } from "lucide-react";
 import { useMemo, useState } from "react";
-import type { CareerLens } from "../config/site";
 import {
   projectFilters,
   projects,
@@ -8,24 +7,17 @@ import {
   type ProjectArea,
 } from "../content/projects";
 
-type ProjectExplorerProps = {
-  careerLens: CareerLens;
-};
-
 type FilterValue = "All" | ProjectArea;
 
-const sortByLens = (lens: CareerLens) => (a: Project, b: Project) =>
-  b.lensWeight[lens] - a.lensWeight[lens] || a.name.localeCompare(b.name);
-
-export function ProjectExplorer({ careerLens }: ProjectExplorerProps) {
+export function ProjectExplorer() {
   const [filter, setFilter] = useState<FilterValue>("All");
   const [expanded, setExpanded] = useState<string | null>("hammerly");
 
   const visibleProjects = useMemo(() => {
-    return projects
-      .filter((project) => filter === "All" || project.areas.includes(filter))
-      .sort(sortByLens(careerLens));
-  }, [careerLens, filter]);
+    return projects.filter(
+      (project) => filter === "All" || project.areas.includes(filter),
+    );
+  }, [filter]);
 
   return (
     <section

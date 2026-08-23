@@ -13,7 +13,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setCompact(window.scrollX > 48);
+    const onScroll = () => setCompact(window.scrollY > 48);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

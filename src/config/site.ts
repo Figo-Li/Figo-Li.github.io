@@ -1,9 +1,7 @@
-export type CareerLens = "software" | "data";
-
 export const siteConfig = {
-  title: "Yunze (Figo) Li | Software Engineer & Data Engineer",
+  title: "Yunze (Figo) Li | Software Engineer",
   description:
-    "I am Yunze (Figo) Li, a software and data engineer focused on scalable applications, cloud systems, and reliable data pipelines.",
+    "I’m Yunze (Figo) Li, a software engineer focused on backend systems, full-stack products, distributed systems, and cloud platforms.",
   url: "https://yunzeli.com/",
   repository: "https://github.com/Figo-Li/Figo-Li.github.io",
   email: "figoli925@gmail.com",
@@ -17,12 +15,7 @@ export const siteConfig = {
     { label: "Projects", href: "#projects" },
     { label: "Skills", href: "#skills" },
     { label: "Education", href: "#education" },
-    { label: "Resume", href: "#resume" },
     { label: "Contact", href: "#contact" },
+    { label: "Resume", href: "#resume" },
   ],
-  lensCopy: {
-    software:
-      "Software lens: I emphasize full-stack delivery, API design, distributed-system troubleshooting, and cloud-ready application foundations.",
-    data: "Data lens: I emphasize pipelines, modeling workflows, analytics systems, and the backend infrastructure that keeps data products reliable.",
-  } satisfies Record<CareerLens, string>,
 };

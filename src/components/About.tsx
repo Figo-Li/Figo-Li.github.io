@@ -8,12 +8,18 @@ export function About() {
       aria-labelledby="about-title"
     >
       <div className="section-heading">
-        <p className="eyebrow">About</p>
+        <p className="eyebrow">ABOUT</p>
         <h2 id="about-title">
-          I build software foundations for data-heavy systems.
+          I build reliable software from backend systems to real-time products.
         </h2>
       </div>
-      <p className="section-lead">{profile.about}</p>
+      <div className="about-copy">
+        {profile.about.map((paragraph) => (
+          <p className="section-lead" key={paragraph}>
+            {paragraph}
+          </p>
+        ))}
+      </div>
       <div className="about-metrics" aria-label="Portfolio highlights">
         <article>
           <strong>30%</strong>

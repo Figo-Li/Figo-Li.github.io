@@ -1,9 +1,6 @@
-import type { CareerLens } from "../config/site";
-
 export type SkillGroup = {
   title: string;
   skills: string[];
-  lensWeight: Record<CareerLens, number>;
 };
 
 export const skillGroups: SkillGroup[] = [
@@ -19,7 +16,6 @@ export const skillGroups: SkillGroup[] = [
       "SQL",
       "HTML/CSS",
     ],
-    lensWeight: { software: 10, data: 9 },
   },
   {
     title: "Backend and APIs",
@@ -31,7 +27,6 @@ export const skillGroups: SkillGroup[] = [
       "REST APIs",
       "WebSockets",
     ],
-    lensWeight: { software: 10, data: 7 },
   },
   {
     title: "Frontend",
@@ -43,7 +38,6 @@ export const skillGroups: SkillGroup[] = [
       "Responsive UI",
       "Accessibility",
     ],
-    lensWeight: { software: 9, data: 4 },
   },
   {
     title: "Data Engineering",
@@ -55,7 +49,6 @@ export const skillGroups: SkillGroup[] = [
       "RAG",
       "Vector Search",
     ],
-    lensWeight: { software: 6, data: 10 },
   },
   {
     title: "Databases",
@@ -67,7 +60,6 @@ export const skillGroups: SkillGroup[] = [
       "SQLite",
       "Schema Design",
     ],
-    lensWeight: { software: 8, data: 9 },
   },
   {
     title: "Cloud and DevOps",
@@ -80,7 +72,6 @@ export const skillGroups: SkillGroup[] = [
       "GitHub Actions",
       "GCP Cloud Build",
     ],
-    lensWeight: { software: 9, data: 9 },
   },
   {
     title: "Testing and Engineering Practices",
@@ -92,6 +83,5 @@ export const skillGroups: SkillGroup[] = [
       "Distributed Systems",
       "Event-Driven Architecture",
     ],
-    lensWeight: { software: 8, data: 7 },
   },
 ];

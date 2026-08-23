@@ -1,17 +1,6 @@
-import type { CareerLens } from "../config/site";
 import { skillGroups } from "../content/skills";
 
-type SkillsProps = {
-  careerLens: CareerLens;
-};
-
-export function Skills({ careerLens }: SkillsProps) {
-  const sortedGroups = [...skillGroups].sort(
-    (a, b) =>
-      b.lensWeight[careerLens] - a.lensWeight[careerLens] ||
-      a.title.localeCompare(b.title),
-  );
-
+export function Skills() {
   return (
     <section
       className="page-section reveal"
@@ -25,7 +14,7 @@ export function Skills({ careerLens }: SkillsProps) {
         </h2>
       </div>
       <div className="skills-grid">
-        {sortedGroups.map((group, index) => (
+        {skillGroups.map((group, index) => (
           <article
             className={`skill-group ${index < 3 ? "is-emphasized" : ""}`}
             key={group.title}
