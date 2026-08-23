@@ -1588,7 +1588,7 @@ body {
   min-height: auto;
   flex: none;
   margin: 0;
-  padding: clamp(60px, 8vw, 104px) clamp(18px, 4vw, 58px);
+  padding: clamp(38px, 5vw, 68px) clamp(18px, 4vw, 58px);
   overflow: visible;
   scroll-margin-top: 82px;
   scroll-snap-align: unset;
@@ -1600,10 +1600,11 @@ body {
 }
 
 .site-main > .hero-section {
-  min-height: calc(100svh - 72px);
+  min-height: auto;
   display: grid;
   align-items: start;
-  padding-top: clamp(22px, 4vw, 46px);
+  padding-top: clamp(22px, 3vw, 40px);
+  padding-bottom: clamp(34px, 4vw, 58px);
   background:
     linear-gradient(
       120deg,
@@ -1749,12 +1750,13 @@ body {
 
   .site-main > .hero-section,
   .site-main > .page-section {
-    padding: 48px 16px;
+    padding: 34px 16px;
   }
 
   .site-main > .hero-section {
     min-height: auto;
-    padding-top: 24px;
+    padding-top: 22px;
+    padding-bottom: 30px;
   }
 
   .hero-content,
