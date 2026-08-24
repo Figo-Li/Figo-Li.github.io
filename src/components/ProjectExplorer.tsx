@@ -1,23 +1,9 @@
-import { ChevronDown, ExternalLink, Filter, GitBranch } from "lucide-react";
-import { useMemo, useState } from "react";
-import {
-  projectFilters,
-  projects,
-  type Project,
-  type ProjectArea,
-} from "../content/projects";
-
-type FilterValue = "All" | ProjectArea;
+import { ChevronDown, ExternalLink, GitBranch } from "lucide-react";
+import { useState } from "react";
+import { projects, type Project } from "../content/projects";
 
 export function ProjectExplorer() {
-  const [filter, setFilter] = useState<FilterValue>("All");
   const [expanded, setExpanded] = useState<string | null>("hammerly");
-
-  const visibleProjects = useMemo(() => {
-    return projects.filter(
-      (project) => filter === "All" || project.areas.includes(filter),
-    );
-  }, [filter]);
 
   return (
     <section
@@ -25,33 +11,14 @@ export function ProjectExplorer() {
       id="projects"
       aria-labelledby="projects-title"
     >
-      <div className="section-heading with-action">
+      <div className="section-heading">
         <div>
           <h2 id="projects-title">Projects</h2>
-        </div>
-        <div className="filter-wrap" aria-label="Project filters">
-          <span className="filter-label">
-            <Filter size={16} aria-hidden="true" />
-            Focus
-          </span>
-          <div className="filter-buttons">
-            {projectFilters.map((option) => (
-              <button
-                type="button"
-                key={option}
-                aria-pressed={filter === option}
-                className={filter === option ? "is-selected" : ""}
-                onClick={() => setFilter(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
       <div className="project-grid">
-        {visibleProjects.map((project) => (
+        {projects.map((project) => (
           <ProjectCard
             key={project.id}
             project={project}

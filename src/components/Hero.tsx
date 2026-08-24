@@ -26,7 +26,6 @@ export function Hero({ onNavigate }: HeroProps) {
               <MapPin size={18} aria-hidden="true" />
               {profile.location}
             </span>
-            <span>{profile.availability}</span>
           </div>
           <div className="hero-actions">
             <button

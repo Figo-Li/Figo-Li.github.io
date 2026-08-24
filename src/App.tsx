@@ -7,7 +7,7 @@ import { ExperienceTimeline } from "./components/ExperienceTimeline";
 import { ProjectExplorer } from "./components/ProjectExplorer";
 import { Skills } from "./components/Skills";
 import { Education } from "./components/Education";
-import { ResumeNotice } from "./components/ResumeNotice";
+import { ResumeSection } from "./components/ResumeSection";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 
@@ -101,7 +101,7 @@ export default function App() {
         <Skills />
         <Education />
         <Contact />
-        <ResumeNotice />
+        <ResumeSection />
       </main>
       <Footer />
     </>

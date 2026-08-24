@@ -10,9 +10,9 @@ export type ExperienceItem = {
 
 export const experience: ExperienceItem[] = [
   {
-    company: "Redmesh (China)",
+    company: "Bosch (China) Investment Ltd.",
     title: "Data Engineer & Power BI Technical Consultant",
-    context: "Client: Bosch (China) Investment Ltd.",
+    context: "Redmesh",
     location: "Suzhou, China",
     period: "August 2023 - August 2024",
     highlights: [

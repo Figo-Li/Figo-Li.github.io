@@ -1,11 +1,3 @@
-export type ProjectArea =
-  | "Full-stack"
-  | "Backend"
-  | "Machine Learning"
-  | "NLP"
-  | "Optimization"
-  | "Game";
-
 export type ProjectCategory =
   | "Full-stack"
   | "Game / Full-stack"
@@ -19,7 +11,6 @@ export type Project = {
   description: string;
   role: string;
   category: ProjectCategory;
-  areas: ProjectArea[];
   technologies: string[];
   highlights: string[];
   problem: string;
@@ -35,16 +26,6 @@ export type Project = {
   visual: "auction" | "cards" | "rag" | "forecast" | "optimizer" | "nlp";
 };
 
-export const projectFilters: ("All" | ProjectArea)[] = [
-  "All",
-  "NLP",
-  "Machine Learning",
-  "Full-stack",
-  "Game",
-  "Optimization",
-  "Backend",
-];
-
 export const projects: Project[] = [
   {
     id: "reddit",
@@ -53,7 +34,6 @@ export const projects: Project[] = [
       "NLP pipeline for collecting, annotating, and modeling Reddit comment value with reproducible train, validation, and test splits.",
     role: "I contributed to the collection, labeling, adjudication, and baseline-modeling pipeline.",
     category: "NLP",
-    areas: ["NLP", "Machine Learning"],
     technologies: ["Python", "PRAW", "Pandas", "scikit-learn", "Excel"],
     highlights: [
       "Collected up to 2,000 recent r/technology comments and retained 1,676 unique comments.",
@@ -94,7 +74,6 @@ export const projects: Project[] = [
       "Dozenal Gin Rummy web game with a Next.js frontend, Flask API, room creation, match state, and custom card logic.",
     role: "I worked across room flow, card state, frontend interaction, and backend match endpoints.",
     category: "Game / Full-stack",
-    areas: ["Game", "Full-stack", "Backend"],
     technologies: [
       "Next.js",
       "TypeScript",
@@ -143,7 +122,6 @@ export const projects: Project[] = [
       "Machine learning system for short-term Canadian unemployment forecasting from multi-source economic indicators.",
     role: "I contributed to preprocessing, model training, evaluation, and saved artifacts in this collaborative data/ML project.",
     category: "Machine Learning",
-    areas: ["Machine Learning"],
     technologies: [
       "Python",
       "TensorFlow",
@@ -192,7 +170,6 @@ export const projects: Project[] = [
       "Machine learning and optimization project for analyzing startup duration signals and turning model output into practical improvement priorities.",
     role: "I frame the modeling workflow around feature preparation, evaluation, and optimization-oriented reporting.",
     category: "Machine Learning / Optimization",
-    areas: ["Machine Learning", "Optimization"],
     technologies: [
       "Python",
       "Pandas",
@@ -239,7 +216,6 @@ export const projects: Project[] = [
       "Auction platform with a Vite/React frontend and Express/SQLite backend for listings, bids, watchlists, and JWT auth.",
     role: "I built across UI pages, API routes, authentication, and persistence.",
     category: "Full-stack",
-    areas: ["Full-stack", "Backend"],
     technologies: [
       "React",
       "Vite",

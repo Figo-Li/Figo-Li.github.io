@@ -394,13 +394,6 @@ h1 {
   color: var(--blue);
 }
 
-.filter-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.filter-buttons button,
 .details-toggle {
   min-height: 38px;
   border: 1px solid var(--line);
@@ -410,12 +403,6 @@ h1 {
   padding: 0 12px;
   font-weight: 900;
   cursor: pointer;
-}
-
-.filter-buttons button.is-selected {
-  color: #ffffff;
-  background: var(--accent);
-  border-color: var(--accent);
 }
 
 .hero-visual {
@@ -477,14 +464,6 @@ h1 {
   margin-bottom: 28px;
 }
 
-.section-heading.with-action {
-  max-width: none;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 24px;
-}
-
 .section-heading h2 {
   margin: 6px 0 0;
   font-size: 3rem;
@@ -527,16 +506,6 @@ h1 {
   font-weight: 800;
 }
 
-.filter-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.78);
-}
-
 .timeline {
   display: grid;
   grid-template-columns: repeat(2, minmax(320px, 1fr));
@@ -563,7 +532,7 @@ h1 {
 .timeline-body,
 .education-item,
 .skill-group,
-.resume-notice,
+.resume-panel,
 .project-card,
 .contact-list {
   border: 1px solid var(--line);
@@ -931,22 +900,38 @@ h1 {
   border-color: rgba(194, 65, 12, 0.28);
 }
 
-.resume-notice {
+.resume-panel {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr);
   gap: 16px;
   padding: 22px;
-  align-items: start;
 }
 
-.resume-notice svg {
-  color: var(--gold);
+.resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
 
-.resume-notice p {
+.resume-viewer {
+  width: 100%;
+  height: 80vh;
+  min-height: 620px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.resume-fallback {
+  margin: 0;
   color: var(--muted);
+  font-size: 0.92rem;
 }
 
+.resume-fallback a {
+  color: var(--accent-strong);
+  font-weight: 900;
+}
 .contact-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
@@ -1048,7 +1033,6 @@ h1 {
     min-height: 360px;
   }
 
-  .section-heading.with-action,
   .contact-layout {
     grid-template-columns: 1fr;
     align-items: start;
@@ -1115,14 +1099,6 @@ h1 {
 
   .timeline-icon {
     display: none;
-  }
-
-  .filter-wrap {
-    align-items: flex-start;
-  }
-
-  .filter-buttons button {
-    flex: 1 1 120px;
   }
 
   .project-card {
@@ -1198,20 +1174,7 @@ h1 {
   background-clip: content-box;
 }
 
-#projects .section-heading.with-action {
-  position: sticky;
-  top: 0;
-  z-index: 4;
-  padding-bottom: 16px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 243, 231, 0.98),
-    rgba(255, 243, 231, 0.82)
-  );
-  backdrop-filter: blur(10px);
-}
-
-#projects .project-grid {
+#projects #projects .project-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   max-height: none;
   overflow: visible;
@@ -1371,109 +1334,7 @@ h1 {
   background: var(--ink);
   font-weight: 900;
 }
-/* V6 focused Projects header and Education logos. */
-#projects .section-heading.with-action {
-  position: relative;
-  top: auto;
-  z-index: auto;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(18px, 2.4vw, 32px);
-  margin: 0 0 22px;
-  padding: 0 0 18px;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-#projects .section-heading.with-action::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: rgba(215, 224, 232, 0.9);
-}
-
-#projects .section-heading.with-action > div:first-child {
-  min-width: 0;
-}
-
-#projects .section-heading h2 {
-  margin: 0;
-  font-size: clamp(2.3rem, 3.2vw, 3.35rem);
-  line-height: 1;
-  font-weight: 950;
-}
-
-#projects .filter-wrap {
-  justify-self: end;
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-#projects .filter-label {
-  min-height: 38px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0 6px 0 0;
-  color: var(--ink);
-  font-size: 0.86rem;
-  font-weight: 950;
-  white-space: nowrap;
-}
-
-#projects .filter-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 6px;
-  min-width: 0;
-  overflow: visible;
-  padding: 0;
-}
-
-#projects .filter-buttons button {
-  flex: 0 0 auto;
-  min-height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.82);
-  color: var(--muted);
-  padding: 0 12px;
-  font-size: 0.88rem;
-  font-weight: 900;
-  white-space: nowrap;
-  box-shadow: none;
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
-}
-
-#projects .filter-buttons button:hover {
-  color: var(--ink);
-  border-color: rgba(15, 118, 110, 0.44);
-  background: #ffffff;
-}
-
-#projects .filter-buttons button.is-selected {
-  color: #ffffff;
-  background: var(--accent);
-  border-color: var(--accent);
-  box-shadow: none;
-}
-
+/* Education logos. */
 .school-logo {
   display: block;
   max-width: 100%;
@@ -1493,54 +1354,7 @@ h1 {
   max-height: 96px;
 }
 
-@media (max-width: 1120px) {
-  #projects .section-heading.with-action {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-
-  #projects .filter-wrap {
-    justify-self: stretch;
-    width: 100%;
-  }
-
-  #projects .filter-buttons {
-    justify-content: flex-start;
-  }
-}
-
 @media (max-width: 760px) {
-  #projects .section-heading.with-action {
-    margin-bottom: 18px;
-    padding-bottom: 16px;
-  }
-
-  #projects .section-heading h2 {
-    font-size: clamp(2rem, 10vw, 2.55rem);
-  }
-
-  #projects .filter-wrap {
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  #projects .filter-buttons {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    scrollbar-width: none;
-  }
-
-  #projects .filter-buttons::-webkit-scrollbar {
-    display: none;
-  }
-
-  #projects .filter-buttons button {
-    min-height: 36px;
-    padding: 0 11px;
-    font-size: 0.84rem;
-  }
-
   .education-heading {
     grid-template-columns: 1fr;
     justify-items: start;
@@ -1723,11 +1537,6 @@ body {
   padding-bottom: 0;
 }
 
-#projects .section-heading.with-action {
-  position: relative;
-  top: auto;
-}
-
 .site-footer {
   position: static;
   z-index: auto;
@@ -1799,5 +1608,39 @@ body {
   .skill-group:nth-child(n),
   .about-metrics article:nth-child(n) {
     display: grid;
+  }
+}
+
+.skills-heading {
+  margin-bottom: 18px;
+}
+
+.section-heading h2.eyebrow {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.skill-tag {
+  gap: 7px;
+  padding: 0 9px;
+}
+
+.skill-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+@media (max-width: 760px) {
+  .resume-viewer {
+    height: 78vh;
+    min-height: 520px;
+  }
+
+  .resume-actions .button,
+  .resume-actions .text-link {
+    width: 100%;
+    justify-content: center;
   }
 }

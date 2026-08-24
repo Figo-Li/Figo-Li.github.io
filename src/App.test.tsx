@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
+import { skillGroups } from "./content/skills";
 
 describe("portfolio interactions", () => {
   beforeEach(() => {
@@ -8,13 +9,19 @@ describe("portfolio interactions", () => {
     window.history.replaceState(null, "", "/");
   });
 
-  it("renders the merged hero and about homepage without the old role selector", () => {
+  it("renders the merged hero and about homepage without old role or availability UI", () => {
     render(<App />);
 
     expect(
       screen.getByRole("heading", { name: "Yunze (Figo) Li" }),
     ).toBeInTheDocument();
     expect(screen.getByText("Software Engineer")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Kitchener, Ontario, Canada").length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.queryByText("Open to Software Engineering opportunities"),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByText(
         /I’m Yunze \(Figo\) Li, a Master of Engineering student/,
@@ -52,18 +59,42 @@ describe("portfolio interactions", () => {
     ]);
   });
 
-  it("filters projects and expands a case study", async () => {
+  it("uses Bosch as the primary experience title and Redmesh as the subtitle", () => {
+    render(<App />);
+
+    const company = screen.getByText("Bosch (China) Investment Ltd.");
+    const redmeshSubtitle = screen
+      .getAllByText("Redmesh")
+      .find((element) => element.classList.contains("item-context"));
+
+    expect(company).toHaveClass("item-company");
+    expect(redmeshSubtitle).toBeInTheDocument();
+    expect(screen.queryByText(/Client:/)).not.toBeInTheDocument();
+  });
+
+  it("shows all projects without project filter controls and expands a case study", async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole("button", { name: "NLP" }));
-
+    expect(screen.queryByText("Focus")).not.toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Reddit Comments Analysis Model" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "Hammerly" }),
+      screen.queryByRole("button", { name: "All" }),
     ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "NLP" }),
+    ).not.toBeInTheDocument();
+
+    for (const heading of [
+      "Reddit Comments Analysis Model",
+      "Gin Rummy Twist",
+      "Unemployment Rate Prediction Model",
+      "Startup Time Optimizer Model",
+      "Hammerly",
+    ]) {
+      expect(
+        screen.getByRole("heading", { name: heading }),
+      ).toBeInTheDocument();
+    }
 
     const redditCard = screen
       .getByRole("heading", { name: "Reddit Comments Analysis Model" })
@@ -86,17 +117,12 @@ describe("portfolio interactions", () => {
     ).toBeInTheDocument();
   });
 
-  it("keeps the Projects filters, repository links, and Education logos accessible", async () => {
-    const user = userEvent.setup();
-    render(<App />);
+  it("keeps repository links, Education logos, skill icons, and the embedded resume accessible", () => {
+    const { container } = render(<App />);
 
     expect(
       screen.getByRole("heading", { name: "Projects" }),
     ).toBeInTheDocument();
-    expect(
-      screen.queryByText("Case studies by focus area."),
-    ).not.toBeInTheDocument();
-    expect(screen.getByText("Focus")).toBeInTheDocument();
     expect(screen.getByAltText("University of Waterloo crest")).toHaveAttribute(
       "src",
       "/images/education/waterloo-crest.svg",
@@ -137,41 +163,27 @@ describe("portfolio interactions", () => {
       screen.getByRole("link", { name: "Hammerly repository" }),
     ).toHaveAttribute("href", "https://github.com/Figo-Li/Hammerly");
 
-    const expectedByFilter = [
-      [
-        "All",
-        [
-          "Reddit Comments Analysis Model",
-          "Gin Rummy Twist",
-          "Unemployment Rate Prediction Model",
-          "Startup Time Optimizer Model",
-          "Hammerly",
-        ],
-      ],
-      ["NLP", ["Reddit Comments Analysis Model"]],
-      [
-        "Machine Learning",
-        [
-          "Reddit Comments Analysis Model",
-          "Unemployment Rate Prediction Model",
-          "Startup Time Optimizer Model",
-        ],
-      ],
-      ["Full-stack", ["Gin Rummy Twist", "Hammerly"]],
-      ["Game", ["Gin Rummy Twist"]],
-      ["Optimization", ["Startup Time Optimizer Model"]],
-      ["Backend", ["Gin Rummy Twist", "Hammerly"]],
-    ] as const;
+    expect(screen.getByRole("heading", { name: "SKILLS" })).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "I organize my toolkit around the systems I like to build.",
+      ),
+    ).not.toBeInTheDocument();
+    const skillCount = skillGroups.reduce(
+      (total, group) => total + group.skills.length,
+      0,
+    );
+    expect(container.querySelectorAll(".skill-tag .skill-icon")).toHaveLength(
+      skillCount,
+    );
 
-    for (const [filter, headings] of expectedByFilter) {
-      await user.click(screen.getByRole("button", { name: filter }));
-
-      for (const heading of headings) {
-        expect(
-          screen.getByRole("heading", { name: heading }),
-        ).toBeInTheDocument();
-      }
-    }
+    expect(
+      screen.getByTitle("Yunze Li Software Engineer Resume"),
+    ).toHaveAttribute("src", "/Yunze_Li_Software_Engineer_Resume.pdf");
+    expect(
+      screen.getByRole("link", { name: "Download Resume" }),
+    ).toHaveAttribute("download", "Yunze_Li_Software_Engineer_Resume.pdf");
+    expect(screen.queryByText(/Request PDF by email/)).not.toBeInTheDocument();
   });
 
   it("copies the public email address", async () => {
